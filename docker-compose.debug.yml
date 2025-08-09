@@ -2,12 +2,12 @@ version: '3.8'
 services:
   frontend:
     build: 
-      context: ./frontend
+      context: ./front_end
       dockerfile: ./Docker/Dockerfile.debug
     volumes:
       - ./front_end:/app
       - /app/node_modules
     ports:
-      - "5173:5173"  # Viteの開発サーバー
-      - "9229:9229"  # デバッグポート
+      - "5173:5173"  # Vite開発用ポート
+      - "9229:9229"  # デバッグ用ポート
     command: npm run debug

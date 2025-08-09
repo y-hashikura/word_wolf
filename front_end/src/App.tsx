@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import TopPage from "./pages/TopPage";
+import UserInputPage from "./pages/UserInputPage";
+import UserConfirmPage from "./pages/UserConfirmPage";
+import { GameSettingsProvider } from "./context/GameSettingContext";
+import { GameDataProvider } from "./context/GameDataContext";
+import GameStartPage from "./pages/GameStartPage";
+import TalkEndPage from "./pages/TalkEndPage";
+import ResultPage from "./pages/ResultPage";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [page, setPage] = useState<"top" | "userInput" | "userConfirm" | "gameStart" | "talkEnd" | "result">("top");
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <GameSettingsProvider>
+      <GameDataProvider>
+      {page === "top" && (
+          <TopPage onNext={() => setPage("userInput")} />
+        )}
+        {page === "userInput" && (
+          <UserInputPage
+            onBack={() => setPage("top")}
+            onNext={() => setPage("userConfirm")}
+          />
+        )}
+        {page === "userConfirm" && (
+          <UserConfirmPage
+            onAllConfirmed={() => setPage("gameStart")}
+          />
+        )}
+        {page === "gameStart" && (
+          <GameStartPage
+            onTalkEnd={() => setPage("talkEnd")}
+          />
+        )}
+        {page === "talkEnd" && (
+          <TalkEndPage
+            onShowResult={() => setPage("result")}
+          />
+        )}
+        {page === "result" && (
+          <ResultPage
+            onBackToTop={() => setPage("top")}
+          />
+        )}
+      </GameDataProvider>
+    </GameSettingsProvider>
+  );
 }
-
-export default App
