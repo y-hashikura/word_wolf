@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans JP', sans-serif;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden; /* スクロールバー非表示 */
+  background: linear-gradient(135deg, #f8a8a8 0%, #f7b6b6 100%);
+  position: relative;
+}
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 1600 900' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 600 Q400 700 800 600 T1600 600 V900 H0 Z' fill='%23fff6e6' fill-opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
+  pointer-events: none;
+}
