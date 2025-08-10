@@ -7,29 +7,27 @@
  * - onNext: 次のページに遷移するときに呼ばれる関数
  * - onBack: 前のページに遷移するときに呼ばれる関数
  */
-import { useEffect } from "react";
 import TopPageTemplate from "@/components/templates/PageTemplate";
 import UserInputPanel from "@/components/organisms/UserInputPanel";
 import Button from "@/components/atoms/Button";
 import { useGameSettings } from "@/context/GameSettingContext";
 import { useGameData } from "@/context/GameDataContext";
+import { useGameApi } from "@/lib/hooks";
 
 export default function UserInputPage({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const { playerCount } = useGameSettings();
-  const { playerNames, setPlayerNames, setQuestions } = useGameData();
+  const { playerCount, wolfCount } = useGameSettings();
+  const { playerNames, setPlayerNames } = useGameData();
+  const { fetchGame, loading, error } = useGameApi();
 
-  // 入力欄の初期化
-  useEffect(() => {
-    if (playerNames.length !== playerCount) {
-      setPlayerNames(Array(playerCount).fill(""));
+  const handleNext = async () => {
+    const result = await fetchGame({
+      players: playerNames,
+      wolf_count: wolfCount,
+    });
+    if (result) {
+      onNext();
     }
-  }, [playerCount]);
-
-  // お題生成例
-  function generateQuestions(names: string[]): string[] {
-    const wolfIndex = Math.floor(Math.random() * names.length);
-    return names.map((_, i) => (i === wolfIndex ? "ウルフのお題" : "村人のお題"));
-  }
+  };
 
   return (
     <TopPageTemplate>
@@ -43,14 +41,16 @@ export default function UserInputPage({ onNext, onBack }: { onNext: () => void; 
         <Button onClick={onBack}>戻る</Button>
         <Button
           onClick={() => {
-            setQuestions(generateQuestions(playerNames));
-            onNext();
+            handleNext();
           }}
-          disabled={playerNames.some(n => !n)}
+          disabled={playerNames.some(n => !n) || loading}
         >
-          次へ
+          {loading ? "通信中..." : "次へ"}
         </Button>
+        {error && <div className="text-red-500">{error}</div>}
       </div>
     </TopPageTemplate>
   );
 }
+
+
