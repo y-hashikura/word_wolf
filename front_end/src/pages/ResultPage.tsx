@@ -12,14 +12,11 @@ import { useGameData } from "@/context/GameDataContext";
 
 // ここではquestions配列の中で「ウルフのお題」と「村人のお題」を判定
 export default function ResultPage({ onBackToTop }: { onBackToTop: () => void }) {
-  const { playerNames, questions } = useGameData();
+  const { playerNames, playerInfoByName, villageTheme, wolfTheme } = useGameData();
 
-  // ウルフと村人を分ける
-  const wolfTheme = questions.find(q => q !== "村人のお題") || "";
-  const villagerTheme = questions.find(q => q === "村人のお題") || "";
-  const wolfIndex = questions.findIndex(q => q !== "村人のお題");
-  const wolfName = playerNames[wolfIndex];
-  const villagerNames = playerNames.filter((_, i) => i !== wolfIndex);
+  const wolfName = playerNames.find(name => playerInfoByName[name]?.is_wolf) || "";
+  const villagerNames = playerNames.filter(name => !playerInfoByName[name]?.is_wolf);
+  const villagerTheme = villageTheme;
 
   return (
     <TopPageTemplate>

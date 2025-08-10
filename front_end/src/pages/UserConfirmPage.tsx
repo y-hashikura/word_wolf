@@ -12,7 +12,7 @@ import UserConfirmPanel from "@/components/organisms/UserConfirmPanel";
 import { useGameData } from "@/context/GameDataContext";
 
 export default function UserConfirmPage({ onAllConfirmed }: { onAllConfirmed: () => void }) {
-  const { playerNames, questions } = useGameData();
+  const { playerNames, playerInfoByName } = useGameData();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
 
@@ -31,7 +31,7 @@ export default function UserConfirmPage({ onAllConfirmed }: { onAllConfirmed: ()
       <UserConfirmPanel
         panelTitle="ユーザ確認/問題"
         userName={playerNames[currentIndex]}
-        question={questions[currentIndex]}
+        question={playerInfoByName[playerNames[currentIndex]]?.theme || ""}
         confirmed={confirmed}
         onConfirm={handleConfirm}
         onNext={handleNext}
