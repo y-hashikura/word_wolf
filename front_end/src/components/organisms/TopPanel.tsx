@@ -38,7 +38,7 @@ export default function SettingsPanel({
         unit="人"
       />
       <QuestionCounter
-        label="エーロウルフの人数は？"
+        label="ウルフの人数は？"
         value={wolfCount}
         onIncrement={() => setWolfCount(wolfCount + 1)}
         onDecrement={() => setWolfCount(Math.max(1, wolfCount - 1))}

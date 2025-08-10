@@ -16,7 +16,7 @@ import { useGameApi } from "@/lib/hooks";
 
 export default function UserInputPage({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const { playerCount, wolfCount } = useGameSettings();
-  const { playerNames, setPlayerNames, setPlayerInfoByName, setVillageTheme, setWolfTheme } = useGameData();
+  const { playerNames, setPlayerNames, setGame } = useGameData();
   const { fetchGame, loading, error } = useGameApi();
 
   const handleNext = async () => {
@@ -25,9 +25,7 @@ export default function UserInputPage({ onNext, onBack }: { onNext: () => void; 
       wolf_count: wolfCount,
     });
     if (result) {
-      setPlayerInfoByName(result.players);
-      setVillageTheme(result.village_theme);
-      setWolfTheme(result.wolf_theme);
+      setGame(result);
       onNext();
     }
   };
