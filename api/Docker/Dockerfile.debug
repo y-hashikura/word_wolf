@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+# Node.jsインストール（swagger-typescript-api用）
+RUN apt-get update && \
+    apt-get install -y nodejs npm && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Pythonライブラリを直接インストール
+RUN pip install --no-cache-dir fastapi uvicorn[standard] pydantic python-dotenv debugpy
+
+# api配下の全てをコピー（.vscodeなども含む）
+COPY . .
+
+EXPOSE 8000
+
+CMD ["python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "--wait-for-client", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

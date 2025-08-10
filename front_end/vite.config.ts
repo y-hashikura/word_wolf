@@ -8,4 +8,17 @@ export default defineConfig({
   resolve: {
     alias: { "@": path.resolve(__dirname, "src") },
   },
+  server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      host: "35.73.195.19",
+      port: 5173,
+      clientPort: 5173
+    }
+  },
+  build: {
+    sourcemap: true,
+  }
 })

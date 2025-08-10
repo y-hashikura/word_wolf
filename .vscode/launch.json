@@ -1,0 +1,51 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Python: Remote Attach (API)",
+        "type": "python",
+        "request": "attach",
+        "connect": {
+          "host": "localhost",
+          "port": 5678
+        },
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}/api",
+            "remoteRoot": "/app"
+          }
+        ]
+      },
+      {
+        "name": "Vite: Chrome (launch)",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:5173",
+        "webRoot": "${workspaceFolder}/front_end",
+        "sourceMaps": true,
+        "resolveSourceMapLocations": [
+          "${workspaceFolder}/front_end/**",
+          "!**/node_modules/**"
+        ],
+        "trace": true
+      },
+      {
+        "name": "Vite: Chrome (attach 9222)",
+        "type": "pwa-chrome",
+        "request": "attach",
+        "port": 9222,
+        "webRoot": "${workspaceFolder}/front_end",
+        "sourceMaps": true
+      },
+  
+      // これは SSR/プラグインなど「ViteのNodeプロセス」を止めたい時用
+      {
+        "name": "Attach Vite Dev Server",
+        "type": "pwa-node",
+        "request": "attach",
+        "port": 9229,
+        "skipFiles": ["<node_internals>/**","**/node_modules/**"],
+        "sourceMaps": true
+      }
+    ]
+  }
