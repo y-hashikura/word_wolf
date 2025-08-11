@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
 from datetime import datetime
-from app.constants.enums import DifficultyLevel, Role
+from shared.constants.enums import DifficultyLevel, Role
 
 class GameCreateRequest(BaseModel):
     """

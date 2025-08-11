@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.models.models import GameCreateRequest, GameResponse
+from shared.models.models import GameCreateRequest, GameResponse
 from app.services.game_service import game_service
 
 router = APIRouter(prefix="/game", tags=["game"])

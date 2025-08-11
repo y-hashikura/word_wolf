@@ -14,14 +14,16 @@ services:
     command: npm run debug
   api:
     build:
-      context: ./api
-      dockerfile: ./Docker/Dockerfile.debug
+      context: .
+      dockerfile: ./api/Docker/Dockerfile.debug
     container_name: fastapi-app
     ports:
       - "8000:8000"
       - "5678:5678"
     volumes:
-      - ./api:/app
+      - .:/app
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    working_dir: /app/api
     command: python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

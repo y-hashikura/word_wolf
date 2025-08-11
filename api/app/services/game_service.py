@@ -1,7 +1,15 @@
+import sys
+from pathlib import Path
 import random
 from typing import Dict, List, Tuple
-from app.models.models import PlayerInfo, GameResponse
-from app.constants.enums import Role, DifficultyLevel
+
+# プロジェクトルートをPythonパスに追加（sharedモジュール用）
+project_root = Path(__file__).parent.parent.parent.parent
+if str(project_root) not in sys.path:
+    sys.path.append(str(project_root))
+
+from shared.models.models import PlayerInfo, GameResponse
+from shared.constants.enums import Role, DifficultyLevel
 
 class GameService:
     """

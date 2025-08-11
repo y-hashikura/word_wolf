@@ -8,10 +8,19 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Pythonライブラリを直接インストール
-RUN pip install --no-cache-dir fastapi uvicorn[standard] pydantic python-dotenv debugpy
+RUN pip install --no-cache-dir fastapi uvicorn[standard] pydantic python-dotenv debugpy httpx
 
-# api配下の全てをコピー（.vscodeなども含む）
-COPY . .
+# shared配下をコピー（ビルドコンテキストがプロジェクトルートなので）
+COPY ./shared ./shared
+
+# api配下の全てをコピー
+COPY ./api ./api
+
+# Pythonパスを設定してsharedモジュールを認識させる
+ENV PYTHONPATH="/app:$PYTHONPATH"
+
+# 作業ディレクトリをapiに設定
+WORKDIR /app/api
 
 EXPOSE 8000
 
