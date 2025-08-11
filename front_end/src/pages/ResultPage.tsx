@@ -12,19 +12,20 @@ import { useGameData } from "@/context/GameDataContext";
 
 // ここではquestions配列の中で「ウルフのお題」と「村人のお題」を判定
 export default function ResultPage({ onBackToTop }: { onBackToTop: () => void }) {
-  const { playerNames, playerInfoByName, villageTheme, wolfTheme } = useGameData();
+  const { playerNames, game } = useGameData();
 
-  const wolfName = playerNames.find(name => playerInfoByName[name]?.is_wolf) || "";
-  const villagerNames = playerNames.filter(name => !playerInfoByName[name]?.is_wolf);
-  const villagerTheme = villageTheme;
+  if (!game) return null;
+
+  const wolfNames = playerNames.filter((name) => game.players[name]?.is_wolf);
+  const villagerNames = playerNames.filter((name) => !game.players[name]?.is_wolf);
 
   return (
     <TopPageTemplate>
       <ResultPanel
-        wolfName={wolfName}
-        wolfTheme={wolfTheme}
+        wolfNames={wolfNames}
+        wolfTheme={game.wolf_theme}
         villagerNames={villagerNames}
-        villagerTheme={villagerTheme}
+        villagerTheme={game.village_theme}
         onBackToTop={onBackToTop}
       />
     </TopPageTemplate>

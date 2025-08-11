@@ -17,6 +17,21 @@
         ]
       },
       {
+        "name": "Python: Remote Attach (LLM)",
+        "type": "python",
+        "request": "attach",
+        "connect": {
+          "host": "localhost",
+          "port": 5679
+        },
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}/llm",
+            "remoteRoot": "/app"
+          }
+        ]
+      },
+      {
         "name": "Vite: Chrome (launch)",
         "type": "pwa-chrome",
         "request": "launch",

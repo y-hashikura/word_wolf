@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from app.models.models import GameCreateRequest, GameResponse
+from shared.models.models import GameCreateRequest, GameResponse
 from app.services.game_service import game_service
 
 router = APIRouter(prefix="/game", tags=["game"])
@@ -10,7 +10,7 @@ async def create_game(request: GameCreateRequest):
     ワードウルフゲーム作成ルーター
     """
     try:
-        response = game_service.create_game(
+        response = await game_service.create_game(
             players=request.players,
             wolf_count=request.wolf_count,
             difficulty=request.difficulty,

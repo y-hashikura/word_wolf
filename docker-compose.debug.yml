@@ -14,14 +14,32 @@ services:
     command: npm run debug
   api:
     build:
-      context: ./api
-      dockerfile: ./Docker/Dockerfile.debug
+      context: .
+      dockerfile: ./api/Docker/Dockerfile.debug
     container_name: fastapi-app
     ports:
       - "8000:8000"
       - "5678:5678"
     volumes:
-      - ./api:/app
+      - .:/app
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    working_dir: /app/api
     command: python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  llm:
+    build:
+      context: .
+      dockerfile: ./llm/Docker/Dockerfile.debug
+    container_name: llm-service
+    ports:
+      - "8100:8100"
+      - "5679:5679"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - OPENAI_API_KEY=${OPENAI_API_KEY}  # 環境変数から取得
+    working_dir: /app/llm
+    command: python -m debugpy --listen 0.0.0.0:5679 --wait-for-client -m uvicorn app.main:app --host 0.0.0.0 --port 8100 --reload

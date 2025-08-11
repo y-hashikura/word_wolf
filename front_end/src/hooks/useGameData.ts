@@ -8,27 +8,17 @@
  * - questions: お題
  */
 import { useState } from "react";
-import type { PlayerInfo } from "@/lib/types";
+import type { GameResponse } from "@/lib/types";
 
 export function useGameData() {
-
   const [playerNames, setPlayerNames] = useState<string[]>([]);
-  const [questions, setQuestions] = useState<string[]>([]);
-  const [playerInfoByName, setPlayerInfoByName] = useState<Record<string, PlayerInfo>>({});
-  const [villageTheme, setVillageTheme] = useState<string>("");
-  const [wolfTheme, setWolfTheme] = useState<string>("");
+  const [game, setGame] = useState<GameResponse | null>(null);
 
   return {
     playerNames,
     setPlayerNames,
-    questions,
-    setQuestions,
-    playerInfoByName,
-    setPlayerInfoByName,
-    villageTheme,
-    setVillageTheme,
-    wolfTheme,
-    setWolfTheme,
+    game,
+    setGame,
   };
 }
 

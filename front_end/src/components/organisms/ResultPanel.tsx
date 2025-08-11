@@ -15,7 +15,7 @@ import QuestionLabel from "@/components/atoms/QuestionLabel";
 import Button from "@/components/atoms/Button";
 
 type Props = {
-  wolfName: string;
+  wolfNames: string[];
   wolfTheme: string;
   villagerNames: string[];
   villagerTheme: string;
@@ -23,7 +23,7 @@ type Props = {
 };
 
 export default function ResultPanel({
-  wolfName,
+  wolfNames,
   wolfTheme,
   villagerNames,
   villagerTheme,
@@ -37,7 +37,7 @@ export default function ResultPanel({
           <span className="font-bold text-[#e48b8b]">ウルフは…</span>
         </QuestionLabel>
         <div className="text-lg font-bold mb-2">
-          {wolfName}さん、「{wolfTheme}」でした。
+          {wolfNames.join("さん、")}さん、「{wolfTheme}」でした。
         </div>
         <QuestionLabel>
           <span className="font-bold text-[#e48b8b]">村人は…</span>

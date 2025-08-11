@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+project_root = Path(__file__).parent.parent.parent
+sys.path.append(str(project_root))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import game_routes

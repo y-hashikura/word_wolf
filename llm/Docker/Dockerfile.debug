@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Pythonライブラリをインストール（LangGraph追加）
+RUN pip install --no-cache-dir fastapi uvicorn[standard] pydantic python-dotenv debugpy httpx openai langgraph
+
+# shared配下をコピー
+COPY ./shared ./shared
+
+# llm配下をコピー
+COPY ./llm ./llm
+
+# Pythonパスを設定
+ENV PYTHONPATH="/app:$PYTHONPATH"
+
+# 作業ディレクトリをllmに設定
+WORKDIR /app/llm
+
+EXPOSE 8100
+EXPOSE 5679
+
+CMD ["python", "-m", "debugpy", "--listen", "0.0.0.0:5679", "--wait-for-client", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8100", "--reload"]
