@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from datetime import datetime
 from shared.constants.enums import DifficultyLevel, Role
 
@@ -29,3 +29,28 @@ class GameResponse(BaseModel):
     players: Dict[str, PlayerInfo] = Field(..., description="プレイヤー情報")
     total_players: int = Field(..., description="総プレイヤー数")
     wolf_count: int = Field(..., description="ウルフ人数")
+    
+class LLMThemeRequest(BaseModel):
+    """
+    LLMテーマ生成リクエスト
+    """
+    difficulty: DifficultyLevel = Field(..., description="難易度")
+    category: Optional[str] = Field(None, description="カテゴリ")
+
+class LLMThemeResponse(BaseModel):
+    """
+    LLMテーマ生成レスポンス
+    """
+    village_theme: str = Field(..., description="村人テーマ")
+    wolf_theme: str = Field(..., description="ウルフテーマ")
+
+class LangGraphState(BaseModel):
+    """
+    LangGraphワークフローの状態管理
+    """
+    # 入力パラメータ
+    difficulty: DifficultyLevel = Field(..., description="難易度")
+    category: Optional[str] = Field(None, description="カテゴリ")
+    # 処理結果
+    village_theme: Optional[str] = Field(None, description="村人テーマ")
+    wolf_theme: Optional[str] = Field(None, description="ウルフテーマ")

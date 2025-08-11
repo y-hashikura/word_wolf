@@ -10,7 +10,7 @@ async def create_game(request: GameCreateRequest):
     ワードウルフゲーム作成ルーター
     """
     try:
-        response = game_service.create_game(
+        response = await game_service.create_game(
             players=request.players,
             wolf_count=request.wolf_count,
             difficulty=request.difficulty,
